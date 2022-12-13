@@ -1,1 +1,11 @@
 Let's take some notes :) 
+
+Neural networks Hyperparameters : 
+1. Number of hidden Layers
+2. Number of nodes in a Layer
+3. Number of EPOCHS
+4. Learning Rate
+5. Batch Size
+6. Activation Function
+7. Back Propagation Technique
+8. Regulation Technique
