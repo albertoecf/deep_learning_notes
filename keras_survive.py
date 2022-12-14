@@ -70,12 +70,15 @@ model = Sequential()
 # model.add adds one "Dense" , one Hidden layer
 model.add(Dense(32, activation='relu', input_shape=(6,)))
 model.add(Dense(32, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(128, activation='relu'))
+model.add(Dense(32, activation='relu'))
 model.add(Dense(5, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 #compile the model
 model.compile(optimizer='adam',loss='binary_crossentropy',metrics=['accuracy'])
 #train the model
-model_train = model.fit(x,y, epochs=100, batch_size=50, verbose=0, validation_split=0.1) 
+model_train = model.fit(x,y, epochs=100, batch_size=50, verbose=1, validation_split=0.06) 
 #How accuracy changes with n epochs?
 plt.plot(model_train.history['accuracy'], label='train')
 plt.plot(model_train.history['val_accuracy'], label='test')
@@ -84,5 +87,23 @@ plt.xlabel('Epoch Number')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 plt.show()
+# save the model por future use
+model.save('titanic_NN.h5')
+# %%
+import numpy as np
+from keras.models import load_model
+model_predict = load_model('titanic_NN.h5')
+
+#%%
+x_example = np.array([[3,0,45,5,1,1]])
+prediction = model_predict.predict(x_example)
+print(prediction)
+
+if prediction < 0.5 :
+    prediction_text = 'Not Survive'
+else :
+    prediction_text  = 'Survive'
+
+print(prediction_text)
 
 # %%
