@@ -14,4 +14,8 @@ Neural networks Hyperparameters :
 Image classifier : 
 
 1. Load the images 
-2. Convert images to numbers
+2. Convert images to numbers / and resize them to be the same size
+
+
+Image data shape : (n, width, height, rgb)
+n = Number of images we got
