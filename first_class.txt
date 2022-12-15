@@ -9,3 +9,9 @@ Neural networks Hyperparameters :
 6. Activation Function
 7. Back Propagation Technique
 8. Regulation Technique
+
+
+Image classifier : 
+
+1. Load the images 
+2. Convert images to numbers
