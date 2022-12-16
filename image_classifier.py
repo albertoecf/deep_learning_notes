@@ -41,4 +41,22 @@ x = ((x - 127.5)/127.5)
 show_image(90)
 
 # %%
-# Create the  Architecture
+from keras.layers import Activation, Conv2D, Dense, Flatten, MaxPool2D
+from keras.models import Sequential
+# %%
+# Create the Architecture for the CNN
+model = Sequential()
+
+
+model.add(Conv2D(32, (5,5), padding='same',activation='relu', input_shape=(100,100,3))) # we resize imagenes -> (100,100). rbg = 3
+model.add(MaxPool2D(pool_size=(2,2))) # MaxPool -> max value pooling. we could use : min, average..
+
+model.add(Conv2D(100, (5,5), padding='same',activation='relu')) 
+model.add(MaxPool2D(pool_size=(2,2)))
+
+model.add(Conv2D(100, (5,5), padding='same',activation='relu')) 
+model.add(MaxPool2D(pool_size=(2,2)))
+
+
+
+# %%
