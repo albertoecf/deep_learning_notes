@@ -1,6 +1,7 @@
 # %%
 from keras.layers import *
 from keras.models import Sequential, Model
+from keras.optimizers import Adam
 import glob  # uploading files
 from PIL import Image
 import numpy as np
@@ -49,3 +50,16 @@ discriminator = Sequential([
 ])
 discriminator.summary()
 # %%
+adam = Adam(lr=0.001, beta_1=0.5)
+discriminator.trainable = True 
+discriminator.compile(loss='binary_crossentropy', optimizer=adam)
+# %%
+generator.compile(loss='binary_crossentropy', optimizer=adam)
+
+ganInput = Input(shape=(100,))
+x = generator(ganInput)
+discriminator.trainable = False
+ganOutput = discriminator(x)
+
+gan = Model(input=ganInput,  output= ganOutput)
+gan.compile(loss='binary_crossentropy', optimizer=adam)
