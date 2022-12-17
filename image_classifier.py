@@ -1,9 +1,9 @@
-#%%
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 from keras.utils import to_categorical
 import os
+import cv2
 
 from keras.models import Sequential
 from keras.layers import Activation, Conv2D, Dense, Flatten, MaxPool2D
@@ -16,6 +16,21 @@ def images_to_array(folder,name):
         image_array = np.array(resize_image)
         x.append(image_array) #images
         y.append(name_encoded[name]) #categories
+
+        image_flipped = cv2.flip(image_array,1) #feature argument data
+        x.append(image_flipped)
+        y.append(name_encoded[name])
+
+
+        image_blurred = cv2.blur(image_array, (2,2)) #feature argument data
+        x.append(image_blurred)
+        y.append(name_encoded[name])
+
+        image_flipped_blurred = cv2.blur(image_flipped, (2,2))
+        x.append(image_flipped)
+        y.append(name_encoded[name])
+
+
 
 
 def show_image(index):
@@ -54,6 +69,12 @@ model.add(MaxPool2D(pool_size=(2,2)))
 model.add(Conv2D(100, (5,5), padding='same',activation='relu')) 
 model.add(MaxPool2D(pool_size=(2,2)))
 
+model.add(Conv2D(100, (5,5), padding='same',activation='relu')) 
+model.add(MaxPool2D(pool_size=(2,2)))
+
+model.add(Conv2D(100, (5,5), padding='same',activation='relu')) 
+model.add(MaxPool2D(pool_size=(2,2)))
+
 model.add(Flatten())
 model.add(Dense(124))
 model.add(Activation('relu'))
@@ -81,4 +102,48 @@ plt.show()
 
 model_score = model.evaluate(x_test, y_test, verbose=0)
 print('Test accuracy : {}'.format(model_score[1]))
-# %%
+
+from keras.models import load_model 
+
+loaded_model = load_model('burger_vs_boxex_CNN.h5')
+
+# predictions within our data set
+def prediction(index_number):
+    img = (np.array(x[index_number])-127.5)/127.5
+    img = img.reshape(1,100,100,3)
+    prediction = model.predict(img) 
+    classes_x=np.argmax(prediction,axis=1)
+    if classes_x == 0:
+        print("Prediction : burger")
+    elif classes_x == 1 :
+        print('Prediction : Box')
+    else : 
+        print('could not decide')
+    plt.imshow(x[index_number])
+    plt.show()
+
+prediction(50)
+
+
+image_path = "new_image.jpg"
+
+def prediction_new_image(image_to_predict_path):
+    img_loaded = Image.open(image_to_predict_path)
+    img_resized = Image.Image.resize(img_loaded, (100,100))
+    img = (np.array(img_resized)-127.5)/127.5
+    img = img.reshape(1,100,100,3)
+    prediction = model.predict(img) 
+    classes_x=np.argmax(prediction,axis=1)
+    if classes_x == 0:
+        print("Prediction : burger")
+    elif classes_x == 1 :
+        print('Prediction : Box')
+    else : 
+        print('could not decide')
+    plt.imshow(img_resized)
+    plt.show()
+
+
+image_path = "cajaunicornio.jpeg"
+prediction_new_image(image_path)
+
