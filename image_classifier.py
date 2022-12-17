@@ -1,4 +1,3 @@
-#%%
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -103,7 +102,6 @@ plt.show()
 
 model_score = model.evaluate(x_test, y_test, verbose=0)
 print('Test accuracy : {}'.format(model_score[1]))
-# %%
 
 from keras.models import load_model 
 
@@ -126,7 +124,7 @@ def prediction(index_number):
 
 prediction(50)
 
-# %%
+
 image_path = "new_image.jpg"
 
 def prediction_new_image(image_to_predict_path):
@@ -145,8 +143,7 @@ def prediction_new_image(image_to_predict_path):
     plt.imshow(img_resized)
     plt.show()
 
-#%%
+
 image_path = "cajaunicornio.jpeg"
 prediction_new_image(image_path)
 
-# %%
